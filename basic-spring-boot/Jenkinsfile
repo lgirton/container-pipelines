@@ -66,8 +66,8 @@ pipeline {
         // if the S2I image supports it.
         script {
             openshift.withCluster() {
-              openshift.withProject("${BUILD}") {
-                openshift.selector("bc", "${APP_NAME}").startBuild("--from-dir=oc-build --build-loglevel=5").logs("-f")
+              openshift.withProject() {
+                openshift.selector("bc", "${APP_NAME}").startBuild("--from-dir=oc-build/deployments/ --build-loglevel=5").logs("-f")
               }
             }
         }
