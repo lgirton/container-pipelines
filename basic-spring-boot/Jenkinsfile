@@ -1,11 +1,3 @@
-library identifier: "pipeline-library@v1.4",
-retriever: modernSCM(
-  [
-    $class: "GitSCMSource",
-    remote: "https://github.com/redhat-cop/pipeline-library.git"
-  ]
-)
-
 openshift.withCluster() {
   env.NAMESPACE = openshift.project()
   env.POM_FILE = env.BUILD_CONTEXT_DIR ? "${env.BUILD_CONTEXT_DIR}/pom.xml" : "pom.xml"
@@ -75,7 +67,7 @@ pipeline {
         script {
             openshift.withCluster() {
               openshift.withProject("${BUILD}") {
-                openshift.selector("bc", "${APP_NAME}").startBuild("--from-dir=oc-build").logs("-f")
+                openshift.selector("bc", "${APP_NAME}").startBuild("--from-dir=oc-build --build-loglevel=5").logs("-f")
               }
             }
         }
